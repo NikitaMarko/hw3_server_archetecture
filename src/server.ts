@@ -3,6 +3,7 @@ import {BASE_URL, PORT} from "./config/userServerConfig.ts";
 import {userRoutes} from "./routes/userRoutes.ts";
 import {UserController} from "./controllers/UserController.ts";
 import {UserServiceEmbeddedImpl} from "./service/UserserviceEmbeddedImpl.ts";
+import {myLogger} from "./events/logger.ts";
 
 
 export const launchServer = () => {
@@ -14,4 +15,9 @@ export const launchServer = () => {
     }).listen(PORT, ()=> {
         console.log(`UserServer runs at ${BASE_URL}:${PORT}`);
     });
+
+    process.on('SIGINT', () => {
+        myLogger.saveToFile('Server shutdown by Ctrl+C');
+        process.exit();
+    })
 }

@@ -1,6 +1,6 @@
 import {IncomingMessage, ServerResponse} from "node:http";
 import {UserController} from "../controllers/UserController.ts";
-import {TYPE_DELETE, TYPE_GET, TYPE_POST, TYPE_PUT} from "../config/userServerConfig.ts";
+import {Link, TYPE_DELETE, TYPE_GET, TYPE_POST, TYPE_PUT} from "../config/userServerConfig.ts";
 import {parseRequestUrl} from "../utils/tools.ts";
 import {myLogger} from "../events/logger.ts";
 
@@ -10,24 +10,26 @@ export const userRoutes =
       const {url,method} = req;
       const parseUrl = parseRequestUrl(req);
 
-    switch(parseUrl.pathname + method) {
-        case '/api/users' + TYPE_POST:{
+        myLogger.log(`I got request ${url} ${method}`)
+
+        switch(parseUrl.pathname + method) {
+        case `${Link}s` + TYPE_POST:{
             await controller.addUser(req, res);
            break;
         }
-        case '/api/users' + TYPE_GET : {
+        case `${Link}s` + TYPE_GET : {
             controller.getAllUsers(req, res)
             break;
         }
-        case '/api/users' + TYPE_DELETE : {
+        case `${Link}s` + TYPE_DELETE : {
             await controller.removeUser(req, res);
             break;
         }
-        case '/api/user' + TYPE_GET : {
+        case Link + TYPE_GET : {
             controller.getUserById(req, res)
             break;
         }
-        case '/api/users' + TYPE_PUT : {
+        case `${Link}s` + TYPE_PUT : {
             await controller.updateUser(req, res)
             break;
         }
